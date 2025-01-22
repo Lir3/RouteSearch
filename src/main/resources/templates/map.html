@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>経路探索</title>
+    <link rel="stylesheet" type="text/css" href="css/map.css">
+    <script src="js/map.js"></script>
+    
+</head>
+
+<body>
+    <button class="top-right-button" onclick="location.href='companylogin'">会社情報へ</button>
+    <div class="container">
+        <h1>経路探索</h1>
+        <form action="/search" method="post">
+            <div class="form-row">
+                <!-- 左側：出発駅、経由駅、到着駅 -->
+                <div class="form-column">
+                    <div>
+                        <label for="from">出発駅:</label>
+                        <input type="text" id="from" name="from" required>
+                    </div>
+                    <div>
+                        <label>経由駅:</label>
+                        <div id="via-container">
+                            <div class="input-row">
+                                <input type="text" name="via[]" placeholder="経由駅を入力">
+                                <button type="button" class="icon-button" onclick="addViaField()">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="to">到着駅:</label>
+                        <input type="text" id="to" name="to" required>
+                    </div>
+                </div>
+
+                <!-- 右側：出発時刻、到着時刻 -->
+                <div class="form-column">
+                    <div>
+                        <label for="departure-time">出発時刻:</label>
+                        <div class="input-row">
+                            <input type="time" id="departure-time" name="departure-time">
+                            <button type="button" class="add-button" onclick="departuresetCurrentTime('departure-time')">現在時刻</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="arrival-time">到着時刻:</label>
+                        <div class="input-row">
+                            <input type="time" id="arrival-time" name="arrival-time">
+                            <button type="button" class="add-button" onclick="arrivalsetCurrentTime('arrival-time')">現在時刻</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit">検索</button>
+        </form>
+    </div>
+</body>
+
+</html>

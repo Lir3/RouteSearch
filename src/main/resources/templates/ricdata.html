@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>住居・身上確認書</title>
+	<link rel="stylesheet" href="css/ricdata.css">
+</head>
+
+<body>
+	<div class="container">
+		<h1>住居・身上確認書</h1>
+		<form>
+			<label for="name">氏名</label>
+			<input type="text" id="name" size="45">
+
+			<label for="kana-name">氏名(カナ)</label>
+			<input type="text" id="kana-name" size="45">
+
+			<label for="address">住所</label>
+			<input type="text" id="address" size="45">
+
+			<label for="mailaddress">メールアドレス</label>
+			<input type="text" id="mailaddress" size="45">
+
+			<label for="nearest-station">上記住所の最寄り駅</label>
+			<input type="text" id="nearest-station" size="45">
+
+			<div id="textBoxContainer"></div>
+			<p>
+				<a href="#" id="addvia-button">+経由地点の追加</a>
+				<a href="#" id="removevia-button">-削除</a>
+			</p>
+			<label for="arrival-station">到着駅</label>
+			<input type="text" id="arrival-station" size="45">
+
+			<div class="routesearch-link">
+				<a href="http://localhost:8080/routesearch" target="_blank">ルートを検索する</a>
+			</div>
+
+			<br>
+
+			<div class="bicycle-condition">
+				<label>最寄り駅までの自転車の利用希望</label>
+				<div class="toggle_button">
+					<input id="toggle" class="toggle_input" type='checkbox' />
+					<label for="toggle" class="toggle_label" />
+				</div>
+			</div>
+
+			<br>
+
+			<label for="arrival-station">自転車移動距離</label>
+			<input type="text" id="arrival-station" size="45">
+
+			<label for="arrival-station">自転車移動時間</label>
+			<input type="text" id="arrival-station" size="45">
+
+			<br>
+			<br>
+
+			<div class="buss-condition">
+				<label for="arrival-station">最寄り駅までのバスの利用希望</label>
+				<div class="toggle_button">
+					<input id="toggle" class="toggle_input" type='checkbox' />
+					<label for="toggle" class="toggle_label" />
+				</div>
+			</div>
+
+			<br>
+
+			<label for="arrival-station">バス停出発点</label>
+			<input type="text" id="arrival-station" size="45">
+
+			<label for="arrival-station">バス停到着点</label>
+			<input type="text" id="arrival-station" size="45">
+
+			<br>
+			<br>
+
+			<button type="button" onclick="location.href='approval'">承認ルート選択に進む</button>
+			<br>
+			<button type="button" onclick="location.href='commuterpassdata'">戻る</button>
+
+		</form>
+	</div>
+</body>
+<script src="js/addTextbox.js"></script>
+
+</html>

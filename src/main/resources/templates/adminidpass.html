@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理者用ID・PASS変更</title>
+	<link rel="stylesheet" href="css/login.css"> <!-- CSSファイルをリンク -->
+	<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet"> <!-- FontAwesomeをリンク -->
+</head>
+
+<body>
+	<div class="login-container">
+		<h1>管理者用ID・PASS変更</h1>
+		<form>
+			<div class="userid-group">
+				<label for="username">ユーザーID</label>
+				<input type="text" id="username" name="username" required>
+			</div>
+			<div class="password-group">
+				<label for="password">パスワード</label>
+				<input type="password" id="password" name="password" required>
+				<span id="togglePassword" class="fa fa-eye"></span>
+			</div>
+			<div class="password-group">
+				<label for="password">パスワード(確認用)</label>
+				<input type="password" id="password" name="password" required>
+				<span id="togglePassword" class="fa fa-eye"></span>
+			</div>
+			<button type="submit" onclick="location.href='adminidpass'">保存</button>
+			<br>
+			<a class="nextlink" href="campanylogin">会社用ログイン画面に進む</a>
+		</form>
+	</div>
+</body>
+<script src="js/login.js"></script>
+
+</html>

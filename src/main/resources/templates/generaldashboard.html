@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ダッシュボード</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <!-- メインコンテンツ -->
+  <div class="main-content">
+    <!-- ヘッダー -->
+    <header>
+      <div class="header-info">
+        <p>ユーザー名:[[${username}]]</p>
+      </div>
+       <button id="logout">ログアウト</button>
+    </header>
+
+    <!-- ダッシュボード -->
+    <section class="dashboard">
+      <h2>メニュー</h2>
+      <div class="cards">
+        <a href="ricpage" class="card">
+          <h4>住居・身上確認</h4>
+          <p>最初はこちら</p>
+          </a>
+        <a href="bicappform" class="card">
+          <h4>自転車通勤申請書</h4>
+          <p>詳細情報</p>
+         </a>
+        <a href="bicinsrance" class="card">
+          <h4>自転車保険加入証明書</h4>
+          <p>詳細情報</p>
+        </a>
+         <a href="" class="card">
+          <h4>自転車通勤経路図</h4>
+          <p>詳細情報</p>
+        </a>
+        <a href="routesearch" class="card" target="_blank">
+          <h4>ルート検索</h4>
+          <p>ルート検索画面はこちら</p>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  
+</body>
+</html>

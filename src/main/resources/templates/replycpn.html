@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>返信確認ページ</title>
+<link rel="stylesheet" href="css/crpage.css">
+</head>
+<body>
+	<div class="container">
+		<h1>返信確認ページ</h1>
+		<form>
+			<img src="img/経路一覧.png">
+			
+			<p id="approval-result-n">×</p>
+			<p>○○さんは1番で承認しませんでした。</p>
+			<p>理由と希望する番号を確認して再度承認メールを送信してください。</p>
+			
+			<label for="reason">承認できない理由</label>
+			<p>理由は○○です。</p>
+			
+			<label for="number">希望する番号:</label>
+			<p>〇</p>
+
+			<div class="example">
+				<button type="button" onclick="location.href='approval'">承認選択ページに進む</button>
+				<button type="button" onclick="location.href='reply'">戻る</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

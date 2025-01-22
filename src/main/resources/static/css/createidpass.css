@@ -1,0 +1,30 @@
+@charset "UTF-8";
+html, body {
+    height: 100%;
+    margin: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 300px; /* コンテンツの幅を設定 */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+/* テキストボックスの幅と高さを調整 */
+input[type="text"] {
+    width: 100%;  /* コンテナ全体の幅に合わせる */
+    height: 40px; /* テキストボックスの高さを指定 */
+    padding: 8px; /* 内側の余白 */
+    font-size: 16px; /* テキストのサイズを大きく */
+    box-sizing: border-box; /* 内側の余白やボーダーが全体のサイズに含まれるように */
+}
+.label {
+    text-align: left;
+}

@@ -1,0 +1,171 @@
+* {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items vertically at the start */
+    background-color: #e9ecef;
+}
+
+.container {
+    width: 90vw;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin: 20px; /* Add margin to avoid screen edges */
+    overflow-y: auto; /* Allow scrolling content within the container */
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #343a40;
+    margin: 0; /* Remove top margin */
+}
+
+h1 i {
+    margin-right: 10px;
+}
+
+/* Tabs Styling */
+.tabs {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tabs ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    background-color: #f1f1f1;
+}
+
+.tabs li {
+    margin-right: 10px;
+}
+
+.tabs button {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.tabs button:hover {
+    background-color: #ddd;
+}
+
+.tabs button.active {
+    background-color: #ccc;
+    font-weight: bold;
+}
+
+.route-card {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.route-card.active {
+    display: block;
+}
+
+h2 {
+    font-size: 20px;
+    color: #495057;
+    margin: 0 0 10px; /* Remove top margin */
+}
+
+h3 {
+    font-size: 18px;
+    color: #495057;
+    margin-top: 15px;
+}
+
+.download-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #0056b3;
+}
+
+p {
+    margin: 10px 0;
+    color: #495057;
+}
+
+p i {
+    margin-right: 10px;
+}
+
+ul.route-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.route-list li {
+    margin: 8px 0;
+    color: #495057;
+    display: flex;
+    align-items: center;
+}
+
+ul.route-list li i {
+    margin-right: 10px;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.back-btn:hover {
+    color: #0056b3;
+}
+
+/* Responsive for mobile devices */
+@media (max-width: 768px) {
+    .container {
+        width: 95vw;
+        padding: 15px 20px;
+    }
+
+    h1, h2, h3, p {
+        font-size: 90%; /* Adjust font size */
+    }
+
+    .download-btn {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}

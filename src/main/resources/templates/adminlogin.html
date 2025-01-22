@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理者用ログイン</title>
+	<link rel="stylesheet" href="css/login.css"> <!-- CSSファイルをリンク -->
+	<link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet"> <!-- FontAwesomeをリンク -->
+</head>
+
+<body>
+	<div class="login-container">
+		<h1>管理者用ログイン</h1>
+		<form>
+			<div class="userid-group">
+				<label for="username">ユーザーID</label>
+				<input type="text" id="username" name="username" required>
+			</div>
+			<div class="password-group">
+				<label for="password">パスワード</label>
+				<input type="password" id="password" name="password" required>
+				<span id="togglePassword" class="fa fa-eye"></span>
+			</div>
+			<button type="submit" onclick="location.href='adminidpass'">ログイン</button>
+		</form>
+	</div>
+	<!--後で消す-->
+	<button type="button" onclick="location.href='adminidpass'">次へ</button>
+</body>
+<script src="js/login.js"></script>
+
+</html>

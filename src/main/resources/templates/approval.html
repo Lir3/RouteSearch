@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>承認選択</title>
+	<link rel="stylesheet" href="css/approval.css">
+</head>
+
+<body>
+
+	<!--メール送信のcss用-->
+	<div class="spinner-overlay" id="spinner">
+		<div class="spinner"></div>
+		<div class="loading-text">入力されたメールアドレスに送信しています。</div>
+	</div>
+
+	<img src="../img/経路一覧.png" width="300" height="300">
+	<br>
+	<br>
+
+	<h2>選択ルート</h2>
+
+	<div>
+	<label for="fruits">決定ルート：</label>
+	<select id="root" name="root" width="30px">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+	</select>
+	</div>
+
+	<!--メール送信用のメアドを取得-->
+	<form th:action="@{/sendMail}" method="post" onsubmit="showSpinner()" th:object="${mailForm}">
+		<p class="label">名前<br><input type="text" placeholder="名前"></p>
+		<p class="label">メールアドレス入力</p>
+		<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></div>
+		<input type="email" id="email" name="email" placeholder="メールアドレス" th:value="*{email}" required><br>
+		<input type="button" value="戻る" class="button" onclick="location.href='crdata'">
+		<input type="submit" value="送信" class="button">
+	</form>
+
+	<!--メール送信用-->
+	<script>
+		function showSpinner() {
+			document.getElementById('spinner').style.display = 'flex';
+		}
+
+		function hideSpinner() {
+			document.getElementById('spinner').style.display = 'none';
+		}
+
+		window.addEventListener('load', function () {
+			hideSpinner();
+		});
+
+		window.addEventListener('beforeunload', function () {
+			showSpinner();
+		});
+	</script>
+
+</body>
+
+</html>
