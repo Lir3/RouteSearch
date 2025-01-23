@@ -31,7 +31,7 @@ public class CompanyLoginController {
 			@RequestParam String password,
 			HttpSession session,
 			Model model) {
-		Optional<LoginInfo> loginInfo = loginInfoRepository.findByusername(username); // メソッド名を変更
+		Optional<LoginInfo> loginInfo = loginInfoRepository.findByUserId(username); // メソッド名を変更
 
 		if (loginInfo.isPresent() && loginInfo.get().getPassword().equals(password)) {
 			session.setAttribute("username", username); // セッションに username を保存
