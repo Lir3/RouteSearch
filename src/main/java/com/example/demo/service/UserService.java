@@ -30,15 +30,15 @@ public class UserService {
     }
 
     public LoginInfo registerUser(String role) {
-        String userId;
+        String username;
         do {
-            userId = generateRandomString(LENGTH);
-        } while (loginInfoRepository.findByUserId(userId).isPresent());
+            username = generateRandomString(LENGTH);
+        } while (loginInfoRepository.findByusername(username).isPresent());
 
         String password = generateRandomString(LENGTH);
 
         LoginInfo user = new LoginInfo();
-        user.setUserId(userId);
+        user.setUsername(username);
         user.setPassword(password);
         user.setRole(role);
 

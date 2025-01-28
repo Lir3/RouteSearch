@@ -9,5 +9,5 @@ import com.example.demo.entity.LoginInfo;
 
 @Repository
 public interface LoginInfoRepository extends JpaRepository<LoginInfo, Integer> {
-    Optional<LoginInfo> findByUserId(String userId);
+    Optional<LoginInfo> findByusername(String username);
 }

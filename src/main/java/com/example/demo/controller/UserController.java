@@ -20,7 +20,7 @@ public class UserController {
         LoginInfo user = userService.registerUser(role);
 
         ModelAndView modelAndView = new ModelAndView("result"); // 結果を表示するためのビュー名
-        modelAndView.addObject("userId", user.getUserId());
+        modelAndView.addObject("username", user.getUsername());
         modelAndView.addObject("password", user.getPassword());
         modelAndView.addObject("role", user.getRole());
         return modelAndView;

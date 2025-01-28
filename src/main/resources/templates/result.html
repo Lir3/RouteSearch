@@ -58,11 +58,68 @@
 			return '不明';
 		}
 	</script>
+	
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgyV7oQ2AFPWLorch-9n57oQQuck-dRU0&callback=initMap" defer></script>
+
+<script>
+//グローバルスコープでmapを定義
+let map;
+//コールバックでマップを読み込む
+function initMap(){
+   //マップ読み込み
+    map = new google.maps.Map(document.getElementById("mapArea"), {
+            zoom: 5,
+            center: new google.maps.LatLng(36,138),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });  
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+        
+    let lati = "${point.GeoPoint.lati_d}";
+    let longi = "${point.GeoPoint.longi_d}";
+    //start、goalの値を東京駅と大阪駅、出発時刻を2024年1月1日10：00に指定
+    let requestUrl = "https://navitime-route-totalnavi.p.rapidapi.com/route_transit?start="+ lati + "," + longi + "&goal="+ lati + "," + longi + "&start_time=2024-01-01T10:00:00&shape=true"
+    
+    //APIにデータを取得するリクエスト（GETリクエスト）を送信することを指定し、
+    //Navitime APIを利用するための認証にAPIキーを入力
+    const options = {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-key': 'e9d46f3b13msh9b6c2d9a274aef2p16435cjsn9beb20aaaf0f',
+            'x-rapidapi-host': 'navitime-route-totalnavi.p.rapidapi.com'
+        }
+    };
+
+
+    fetch(requestUrl,options)
+        .then(response =>{
+            return response.json();
+        })
+    
+        .then(data => { 
+
+            //データを地図に追加
+            map.data.addGeoJson(data.items[0].shapes);
+            
+        })
+        .catch(error => {
+            console.error('エラーが発生しました:', error);
+            document.getElementById('result').innerHTML = '<p>経路情報の取得に失敗しました。</p>';
+        });
+});
+
+        
+</script>
+
+
 </head>
 
 <body th:if="${course != null and course.ResultSet != null and course.ResultSet.Course != null}">
 	<div class="container">
 		<h1><i class="fas fa-route"></i> 経路探索結果</h1>
+		<div id="mapArea" style="width:800px; height:400px;"></div>
+		
 		<div class="tabs">
 			<ul>
 				<li>
@@ -97,6 +154,10 @@
 				<ul class="route-list">
 					<li th:each="point, stat : ${route.Route.Point}">
 						<span th:text="${point.Station.Name}"></span>
+						<span>
+            緯度経度: <span th:text="${point.GeoPoint}"></span>
+        </span>
+						
 						<br th:if="${!stat.last}">
 						<th:block th:if="${!stat.last}">
 							<i class="fas fa-long-arrow-alt-down"></i>

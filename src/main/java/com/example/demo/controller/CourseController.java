@@ -31,6 +31,7 @@ public class CourseController {
         String viaString = via != null ? String.join(",", via) : "";
         Map<String, Object> response = stationLightService.getRoutes(from, to, viaString);
         model.addAttribute("course", response);
+        System.out.println("これだぁぁっぁぁぁ"+response);
         return "result";
     }
 }

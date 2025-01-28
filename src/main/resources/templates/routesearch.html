@@ -32,7 +32,6 @@
     <div>
       出発地: <input id="start" type="text" placeholder="出発地を入力">
       目的地: <input id="end" type="text" placeholder="目的地を入力">
-      時間指定: <input id="time" type="datetime-local">
       移動方法:
       <select id="mode">
         <option value="DRIVING">車</option>
@@ -56,7 +55,7 @@
 
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 35.6895, lng: 139.6917}, 
+        center: {lat: 35.6895, lng: 139.6917},
         zoom: 13
       });
       directionsService = new google.maps.DirectionsService();
@@ -68,88 +67,39 @@
       };
       startAutocomplete = new google.maps.places.Autocomplete(document.getElementById('start'), options);
       endAutocomplete = new google.maps.places.Autocomplete(document.getElementById('end'), options);
-
-      addEnterKeyListener(startAutocomplete);
-      addEnterKeyListener(endAutocomplete);
-    }
-
-    function addEnterKeyListener(autocomplete) {
-      autocomplete.addListener('place_changed', function() {
-        const place = autocomplete.getPlace();
-        console.log('Selected place:', place);
-      });
     }
 
     function calcRoute() {
-  const start = document.getElementById('start').value;
-  const end = document.getElementById('end').value;
-  const selectedMode = document.getElementById('mode').value;
-  const dateTime = document.getElementById('time').value;
+      const start = document.getElementById('start').value;
+      const end = document.getElementById('end').value;
+      const selectedMode = document.getElementById('mode').value;
 
-  const startCoords = `35.6895,139.6917`;  // Placeholder for start coordinates (replace with actual method to get)
-  const endCoords = `35.681236,139.767125`;  // Placeholder for end coordinates (replace with actual method to get)
+      const request = {
+        origin: start,
+        destination: end,
+        travelMode: selectedMode,
+      };
 
-  const viaList = `${startCoords}:${endCoords}`;
-  
-  // Note: Replace 'YOUR_API_KEY' with your actual API key for Mixway API
-  const apiUrl = `https://api.mixway.com/v1/json/search/course/extreme?key=test_QMMh4JZJgnC&viaList=${viaList}&date=${getDate(dateTime)}&time=${getTime(dateTime)}&mode=${translateMode(selectedMode)}&sort=time`;
+      directionsService.route(request, function(response, status) {
+        if (status === 'OK') {
+          directionsRenderer.setDirections(response);
+          displayRouteInfo(response);
+        } else {
+          alert('経路を計算できませんでした: ' + status);
+        }
+      });
+    }
 
-  fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => displayMixwayRouteInfo(data))
-    .catch(error => alert('エラーが発生しました: ' + error.message));
-}
+    function displayRouteInfo(response) {
+      const route = response.routes[0].legs[0];
+      const duration = route.duration.text;
+      const distance = route.distance.text;
 
-function getDate(dateTime) {
-  if (!dateTime) return new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  return dateTime.slice(0, 10).replace(/-/g, "");
-}
-
-function getTime(dateTime) {
-  if (!dateTime) return new Date().toTimeString().slice(0, 5).replace(/:/g, "");
-  return dateTime.slice(11, 16).replace(/:/g, "");
-}
-
-function translateMode(mode) {
-  switch (mode) {
-    case 'DRIVING':
-      return 'public'; // Assuming 'DRIVING' is translated to 'public'
-    case 'BICYCLING':
-      return 'cycle';
-    case 'TRANSIT':
-      return 'public';
-    case 'WALKING':
-      return 'public';
-    default:
-      return 'public';
-  }
-}
-
-function displayMixwayRouteInfo(data) {
-  if (!data || !data.Course || !data.Course[0] || !data.Course[0].Route) {
-    alert('経路情報が見つかりませんでした');
-    return;
-  }
-
-  const route = data.Course[0].Route[0];
-  const duration = route.Duration.text;
-  const distance = route.Distance.text;
-  const cost = route.Cost.Yen.value; // Assuming the API response contains cost
-
-  const routesDiv = document.getElementById('routes');
-  routesDiv.innerHTML = `
-    <p>所要時間: ${duration}</p>
-    <p>距離: ${distance}</p>
-    <p>概算料金: ${cost}円</p>
-  `;
-}
-    function calculateCost(leg) {
-      // Basic dummy cost function for demonstration
-      // Replace this with actual cost logic as needed
-      const baseRate = 100; // Example base rate in yen
-      const costPerKm = 10; // Example cost per km in yen
-      const distanceKm = leg.distance.value / 1000; // Convert meters to kilometers
-      return Math.round(baseRate + costPerKm * distanceKm);
+      const routesDiv = document.getElementById('routes');
+      routesDiv.innerHTML = `
+        <p>所要時間: ${duration}</p>
+        <p>距離: ${distance}</p>
+      `;
     }
 
     function moveToCompanyLogin() {

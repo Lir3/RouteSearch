@@ -11,6 +11,6 @@ public class LoginService {
     private LoginRepository loginRepository;
 
     public String authenticateUser(String name, String password) {
-        return loginRepository.findRoleByUserIdAndPassword(name, password);
+        return loginRepository.findRoleByusenameAndPassword(name, password);
     }
 }

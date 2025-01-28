@@ -1,50 +1,80 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ダッシュボード</title>
-  <link rel="stylesheet" href="css/dashboard.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ダッシュボード</title>
+	<link rel="stylesheet" href="css/dashboard.css">
+	<!--外部からモーダルのjsを読み込む（リンク）-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
+
 <body>
-  <!-- メインコンテンツ -->
-  <div class="main-content">
-    <!-- ヘッダー -->
-    <header>
-      <div class="header-info">
-        <p>ユーザー名:[[${username}]]</p>
-      </div>
-       <button id="logout">ログアウト</button>
-    </header>
+	<!-- メインコンテンツ -->
+	<div class="main-content">
+		<!-- ヘッダー -->
+		<header>
+			<div class="header-info">
+				<p>ユーザー名:[[${username}]]</p>
+			</div>
+			<!-- モーダルを開くボタン -->
+			<button type="button" class="open-button btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+				ログアウト
+			</button>
 
-    <!-- ダッシュボード -->
-    <section class="dashboard">
-      <h2>メニュー</h2>
-      <div class="cards">
-        <a href="ricpage" class="card">
-          <h4>住居・身上確認</h4>
-          <p>最初はこちら</p>
-          </a>
-        <a href="bicappform" class="card">
-          <h4>自転車通勤申請書</h4>
-          <p>詳細情報</p>
-         </a>
-        <a href="bicinsrance" class="card">
-          <h4>自転車保険加入証明書</h4>
-          <p>詳細情報</p>
-        </a>
-         <a href="" class="card">
-          <h4>自転車通勤経路図</h4>
-          <p>詳細情報</p>
-        </a>
-        <a href="routesearch" class="card" target="_blank">
-          <h4>ルート検索</h4>
-          <p>ルート検索画面はこちら</p>
-        </a>
-      </div>
-    </section>
-  </div>
+			<!-- モーダルの内容 -->
+			<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalLabel">ログアウト確認</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							ログアウトしますか？
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+							<button type="button" class="btn btn-primary"
+								onclick="location.href='companylogin'">ログアウト</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
 
-  
+		<!-- ダッシュボード -->
+		<section class="dashboard">
+			<h2>メニュー</h2>
+			<div class="cards">
+				<a href="ricpage" class="card">
+					<h4>住居・身上確認</h4>
+					<p>最初はこちら</p>
+				</a>
+				<a href="bicappform" class="card">
+					<h4>自転車通勤申請書</h4>
+					<p>詳細情報</p>
+				</a>
+				<a href="bicinsrance" class="card">
+					<h4>自転車保険加入証明書</h4>
+					<p>詳細情報</p>
+				</a>
+				<a href="" class="card">
+					<h4>自転車通勤経路図</h4>
+					<p>詳細情報</p>
+				</a>
+				<a href="routesearch" class="card" target="_blank">
+					<h4>ルート検索</h4>
+					<p>ルート検索画面はこちら</p>
+				</a>
+			</div>
+		</section>
+	</div>
+
+
 </body>
+
 </html>

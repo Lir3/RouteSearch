@@ -12,15 +12,14 @@ import jakarta.validation.constraints.Size;
 @Table(name = "login_info")
 public class LoginInfo {
 
-<<<<<<< HEAD
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_id", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     @NotNull
     @Size(min = 5, max = 20)
-    private String userId;
+    private String username;
 
     @Column(nullable = false)
     @NotNull
@@ -31,53 +30,7 @@ public class LoginInfo {
     @NotNull
     private String role;
 
-    // Getters and Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-}
-=======
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
-	@Column(name = "username")
-	private String username;
-	
-	@Column(name = "password")
-	private String password;
-	
-	@Column(name = "role")
-	private String role;
-
+ // Getters and Setters
 	public int getId() {
 		return id;
 	}
@@ -110,9 +63,5 @@ public class LoginInfo {
 		this.role = role;
 	}
 
-	
-
-	
-
+    
 }
->>>>>>> branch 'main' of https://github.com/Lir3/RouteSearch.git

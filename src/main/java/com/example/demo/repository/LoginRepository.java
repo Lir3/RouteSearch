@@ -9,10 +9,10 @@ public class LoginRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public String findRoleByUserIdAndPassword(String userId, String password) {
-        String sql = "SELECT role FROM login_info WHERE user_id = ? AND password = ?";
+    public String findRoleByusenameAndPassword(String usename, String password) {
+        String sql = "SELECT role FROM login_info WHERE username = ? AND password = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, new Object[]{userId, password}, String.class);
+            return jdbcTemplate.queryForObject(sql, new Object[]{usename, password}, String.class);
         } catch (Exception e) {
             return null; // 該当するユーザーがいない場合
         }

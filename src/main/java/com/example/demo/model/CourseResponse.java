@@ -1,4 +1,3 @@
-// CourseResponse.java
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,7 +41,7 @@ public class CourseResponse {
         private int timeWalk;
         private String transferCount;
         private Line[] line;
-        private Point[] point;
+        private Point[] point;  // Pointは緯度経度情報を含む
     }
 
     @Data
@@ -55,6 +54,7 @@ public class CourseResponse {
     @Data
     public static class Point {
         private Station station;
+        private GeoPoint geoPoint;  // GeoPointを追加して緯度経度を管理
     }
 
     @Data
@@ -62,5 +62,12 @@ public class CourseResponse {
         private String code;
         private String name;
         private String type;
+    }
+
+    @Data
+    public static class GeoPoint {
+        private Double lati;  // 緯度は数値型が良い
+        private Double longi;  // 経度も数値型に変更
+        private String gcs;  // GCSが文字列であればそのままで問題なし
     }
 }
