@@ -10,7 +10,7 @@ public class LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-    public String authenticateUser(String userId, String password) {
-        return loginRepository.findRoleByUserIdAndPassword(userId, password);
+    public String authenticateUser(String name, String password) {
+        return loginRepository.findRoleByUserIdAndPassword(name, password);
     }
 }
