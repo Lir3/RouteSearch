@@ -75,6 +75,15 @@ public class RoutesearchController {
 		}
 	}
 
+	//自転車経路図
+	@Controller
+	public class BicRouteMapController {
+		@RequestMapping(value = "/bicroutemap")
+		public String routesearch() {
+			return "bicroutemap";
+		}
+	}
+
 	@Controller
 	public class RicDataController {
 		@RequestMapping(value = "/ricdata")
@@ -118,15 +127,6 @@ public class RoutesearchController {
 		@RequestMapping(value = "/mainmenu")
 		public String cpaf() {
 			return "mainmenu";
-		}
-	}
-
-	//住居・身上確認
-	@Controller
-	public class RicpageController {
-		@RequestMapping(value = "/ricpage")
-		public String ricpage() {
-			return "ricpage";
 		}
 	}
 
@@ -181,7 +181,7 @@ public class RoutesearchController {
 			return "generaldashboard";
 		}
 	}
-	
+
 	@Controller
 	public class mapController {
 		@RequestMapping(value = "/map")
@@ -189,35 +189,33 @@ public class RoutesearchController {
 			return "map";
 		}
 	}
-	
+
 	//メール
-			@Controller
-			public class AllController {
+	@Controller
+	public class AllController {
 
-				@Autowired
-				private MailService mailService;
+		@Autowired
+		private MailService mailService;
 
-				@GetMapping("/approval")
-				public String showHome(MailForm mailForm) {
-					return "approval";
-				}
+		@GetMapping("/approval")
+		public String showHome(MailForm mailForm) {
+			return "approval";
+		}
 
-				@PostMapping("/sendMail")
-				public String sendMail(@Validated MailForm mailForm, BindingResult bindingResult) {
-					//バリデーションチェック
-					if (!bindingResult.hasErrors()) {
-						mailService.insertMail(mailForm);
-						return "sendcomp";
-					} else {
-						return showHome(mailForm);
-					}
-				}
-
-				@GetMapping("/back")
-				public String back(MailForm mailForm) {
-					return showHome(mailForm);
-				}
+		@PostMapping("/sendMail")
+		public String sendMail(@Validated MailForm mailForm, BindingResult bindingResult) {
+			//バリデーションチェック
+			if (!bindingResult.hasErrors()) {
+				mailService.insertMail(mailForm);
+				return "sendcomp";
+			} else {
+				return showHome(mailForm);
 			}
+		}
+
+		@GetMapping("/back")
+		public String back(MailForm mailForm) {
+			return showHome(mailForm);
+		}
+	}
 }
-
-

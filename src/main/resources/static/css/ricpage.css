@@ -27,7 +27,7 @@ label {
   margin-bottom: 2px;
 }
 
-input[type="text"] {
+input{
   width: 95%;
   padding: 10px;
   margin: 10px 0; /* マージンを増やす */
@@ -69,56 +69,57 @@ button[type="submit"] {
 }
 
 /* トグルボタン */
-.toggle_input {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 5;
-	opacity: 0;
-	cursor: pointer;
+.toggle-button-4 {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100px;
+    height: 50px;
+    border-radius: 50px;
+    box-sizing: content-box;
+    background-color: #8c8c8c33;
+    cursor: pointer;
+    transition: background-color .4s;
 }
 
-.toggle_label {
-	width: 55px;
-	height: 30px;
-	background: #fff;
-	border: 3px solid #eee;
-	position: relative;
-	display: inline-block;
-	border-radius: 40px;
-	transition: 0.4s;
-	box-sizing: border-box;
+.toggle-button-4:has(:checked) {
+    background-color: #75bbff33;
 }
 
-.toggle_label:after {
-	content: "";
-	position: absolute;
-	width: 28px;
-	height: 28px;
-	border-radius: 100%;
-	left: 0px;
-	top: -2px;
-	z-index: 2;
-	background: #eee;
-	transition: 0.4s;
+.toggle-button-4::before {
+    position: absolute;
+    left: 5px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #8c8c8c;
+    content: '';
+    transition: left .4s;
 }
 
-.toggle_input:checked+.toggle_label {
-
-	border: 3px solid #4BD865;
+.toggle-button-4:has(:checked)::before {
+    left: 50px;
+    background-color: #75bbff;
 }
 
-.toggle_input:checked+.toggle_label:after {
-	left: 23px;
-	background: #4BD865;
+.toggle-button-4::after {
+    position: absolute;
+    left: 26px;
+    transform: translateX(-50%);
+    color: #fff;
+    font-weight: 600;
+    font-size: .9em;
+    content: 'No';
+    transition: left .4s;
 }
 
-.toggle_button {
-	position: relative;
-	width: 55px;
-	height: 30px;
+.toggle-button-4:has(:checked)::after {
+    left: 71px;
+    content: 'Yes';
+}
+
+.toggle-button-4 input {
+    display: none;
 }
 
 /* 経由地の追加 */

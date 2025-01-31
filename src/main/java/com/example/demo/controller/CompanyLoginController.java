@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,8 @@ public class CompanyLoginController {
 	}
 
 	@GetMapping("/companylogin")
-	public String loginPage() {
-		return "companylogin"; // login.html
+	public String companyloginPage() {
+		return "companylogin";
 	}
 
 	@PostMapping("/companylogin")
