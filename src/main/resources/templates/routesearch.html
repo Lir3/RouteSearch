@@ -6,24 +6,11 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgyV7oQ2AFPWLorch-9n57oQQuck-dRU0&libraries=places"></script>
   
   <style>
-    body {
-      display: flex; 
-      margin: 0; 
-      height: 100vh; 
-    }
-
-    .left-panel {
-      width: 25%; 
-      background-color: #ffffff;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      overflow-y: auto;
-    }
-
-    #map {
-      height: 100vh;
-      width: 75%;
-    }
+    body { display: flex; margin: 0; height: 100vh; }
+    .left-panel { width: 25%; background-color: #ffffff; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); overflow-y: auto; }
+    #map { height: 100vh; width: 75%; }
+    .route-card { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+    .download-btn { margin-left: 10px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -40,31 +27,24 @@
         <option value="WALKING">徒歩</option>
       </select>
       <button onclick="calcRoute()">経路探索</button>
-      <button onclick="moveToCompanyLogin()">Company Login</button>
     </div>
     <div id="routes"></div>
   </div>
   <div id="map"></div>
 
   <script>
-    let map;
-    let directionsService;
-    let directionsRenderer;
-    let startAutocomplete;
-    let endAutocomplete;
+    let map, directionsService, directionsRenderer;
+    let startAutocomplete, endAutocomplete;
 
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 35.6895, lng: 139.6917},
-        zoom: 13
+        center: {lat: 35.6895, lng: 139.6917}, zoom: 13
       });
       directionsService = new google.maps.DirectionsService();
       directionsRenderer = new google.maps.DirectionsRenderer();
       directionsRenderer.setMap(map);
 
-      const options = {
-        componentRestrictions: { country: 'jp' }
-      };
+      const options = { componentRestrictions: { country: 'jp' } };
       startAutocomplete = new google.maps.places.Autocomplete(document.getElementById('start'), options);
       endAutocomplete = new google.maps.places.Autocomplete(document.getElementById('end'), options);
     }
@@ -74,36 +54,108 @@
       const end = document.getElementById('end').value;
       const selectedMode = document.getElementById('mode').value;
 
-      const request = {
-        origin: start,
-        destination: end,
-        travelMode: selectedMode,
-      };
+      if (selectedMode === "TRANSIT") {
+        fetchEkispertRoutes(start, end);
+      } else {
+        directionsService.route({ origin: start, destination: end, travelMode: selectedMode }, 
+          function(response, status) {
+            if (status === 'OK') {
+              directionsRenderer.setDirections(response);
+              displayRouteInfo(response);
+            } else {
+              alert('経路を計算できませんでした: ' + status);
+            }
+        });
+      }
+    }
 
-      directionsService.route(request, function(response, status) {
-        if (status === 'OK') {
-          directionsRenderer.setDirections(response);
-          displayRouteInfo(response);
-        } else {
-          alert('経路を計算できませんでした: ' + status);
+    async function fetchEkispertRoutes(from, to) {
+      try {
+        const fromCode = await getStationCode(from);
+        const toCode = await getStationCode(to);
+
+        if (!fromCode || !toCode) {
+          alert("駅コードを取得できませんでした");
+          return;
         }
-      });
+
+        const routeData = await getEkispertRoute(fromCode, toCode);
+        if (routeData) {
+          displayRouteDetails(routeData);
+        }
+      } catch (error) {
+        console.error("Ekispert 経路検索エラー:", error);
+        alert("公共交通機関の経路検索に失敗しました");
+      }
     }
 
-    function displayRouteInfo(response) {
-      const route = response.routes[0].legs[0];
-      const duration = route.duration.text;
-      const distance = route.distance.text;
+    async function getStationCode(stationName) {
+      const apiKey = "test_QMMh4JZJgnC";
+      const url = `https://api.ekispert.jp/v1/json/station/light?key=${apiKey}&name=${stationName}&type=train`;
 
-      const routesDiv = document.getElementById('routes');
-      routesDiv.innerHTML = `
-        <p>所要時間: ${duration}</p>
-        <p>距離: ${distance}</p>
-      `;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.ResultSet?.Point) {
+        return data.ResultSet.Point[0]?.Station?.code || null;
+      }
+      return null;
     }
 
-    function moveToCompanyLogin() {
-      window.location.href = 'companylogin';
+    async function getEkispertRoute(fromCode, toCode) {
+      const apiKey = "test_QMMh4JZJgnC";
+      const url = `https://api.ekispert.jp/v1/json/search/course/extreme?key=${apiKey}&viaList=${fromCode}:${toCode}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      return data.ResultSet?.Course || [];
+    }
+
+    function displayRouteDetails(routeData) {
+  console.log("Ekispert API 経路データ:", routeData); // デバッグ用
+  let routesHtml = "<h2>経路一覧</h2>";
+
+  routeData.forEach((route, index) => {
+    console.log(`パターン${index + 1} の詳細:`, route); // ここで定期代のデータがあるか確認
+
+    routesHtml += `
+      <div class="route-card">
+        <h3>パターン ${index + 1} <button class="download-btn" onclick="downloadRouteAsTxt(${index})">ダウンロード</button></h3>
+        <p>所要時間: ${route.Route.timeOnBoard}分・徒歩${route.Route.timeWalk}分</p>
+        <p>乗換回数: ${route.Route.transferCount}回</p>
+        <p>運賃: ${getFare(route)}円</p>
+        <p>定期代: 1ヶ月 ${getTeikiPrice(route, 'Teiki1')}円, 3ヶ月 ${getTeikiPrice(route, 'Teiki3')}円, 6ヶ月 ${getTeikiPrice(route, 'Teiki6')}円</p>
+      </div>`;
+  });
+
+  document.getElementById("routes").innerHTML = routesHtml;
+}
+
+    function getFare(route) {
+      if (route.Price && route.Price.length > 0) {
+        let fareSummary = route.Price.find(price => price.kind === 'FareSummary');
+        return fareSummary ? fareSummary.Oneway : '不明';
+      }
+      return '不明';
+    }
+
+    function getTeikiPrice(route, type) {
+      if (route.Price && route.Price.length > 0) {
+        let teikiPrice = route.Price.find(price => price.kind === type);
+        return teikiPrice ? teikiPrice.Oneway : '不明';
+      }
+      return '不明';
+    }
+
+    function downloadRouteAsTxt(routeIndex) {
+      const route = document.getElementsByClassName('route-card')[routeIndex];
+      const content = route.innerText;
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `route_${routeIndex + 1}.txt`;
+      link.click();
     }
 
     window.onload = initMap;

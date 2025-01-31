@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,16 +35,8 @@ public class StationLightService {
             String url = builder.toUriString();
             System.out.println("Course API request URL: " + url);
 
-            Map<String, Object> responseEntity = restTemplate.getForObject(url, Map.class);
-
-            System.out.println("Course API response: " + responseEntity);
-
-            return responseEntity;
-        } catch (HttpClientErrorException e) {
-            System.err.println("HTTP error occurred: " + e.getStatusCode() + " " + e.getStatusText());
-            throw new RuntimeException("経路の取得に失敗しました", e);
+            return restTemplate.getForObject(url, Map.class);
         } catch (Exception e) {
-            System.err.println("Error in getRoutes: " + e.getMessage());
             throw new RuntimeException("経路の取得に失敗しました", e);
         }
     }
@@ -55,9 +46,7 @@ public class StationLightService {
             return "";
         }
 
-        RestTemplate restTemplate = new RestTemplate();
         StringBuilder viaCodesBuilder = new StringBuilder();
-
         for (String stationName : via.split(",")) {
             if (!stationName.trim().isEmpty()) {
                 if (viaCodesBuilder.length() > 0) {
@@ -66,7 +55,6 @@ public class StationLightService {
                 viaCodesBuilder.append(getStationCode(stationName.trim()));
             }
         }
-
         return viaCodesBuilder.toString();
     }
 
@@ -89,25 +77,11 @@ public class StationLightService {
 
             if (rootNode.has("ResultSet") && rootNode.get("ResultSet").has("Point")) {
                 JsonNode pointNode = rootNode.get("ResultSet").get("Point");
-                if (pointNode.isArray()) {
-                    // 複数の駅が返された場合（各駅停車など）
-                    for (JsonNode station : pointNode) {
-                        if (station.has("Station") && station.get("Station").has("Name") 
-                            && station.get("Station").get("Name").asText().equals(stationName)) {
-                            return station.get("Station").get("code").asText();
-                        }
-                    }
-                    // 完全一致が見つからない場合は最初の駅を使用
-                    return pointNode.get(0).get("Station").get("code").asText();
-                } else {
-                    // 単一の駅の場合
-                    return pointNode.get("Station").get("code").asText();
-                }
+                return pointNode.isArray() ? pointNode.get(0).get("Station").get("code").asText()
+                                           : pointNode.get("Station").get("code").asText();
             }
-
             throw new RuntimeException("駅が見つかりません: " + stationName);
         } catch (Exception e) {
-            System.err.println("Error occurred: " + e.getMessage());
             throw new RuntimeException("駅コードの取得に失敗しました: " + stationName, e);
         }
     }

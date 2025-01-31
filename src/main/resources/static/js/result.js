@@ -1,4 +1,3 @@
-// 経路をテキストファイルとしてダウンロードする関数
 function downloadRouteAsTxt(routeIndex) {
 	var routes = /*[[${course.ResultSet.Course}]]*/[];
 	if (routeIndex >= 0 && routeIndex < routes.length) {
