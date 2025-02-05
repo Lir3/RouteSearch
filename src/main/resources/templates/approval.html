@@ -21,16 +21,7 @@
 
         <form th:action="@{/sendMail}" method="post" onsubmit="showSpinner()">
             <label for="rootselect">決定ルート：</label>
-            <select id="rootselect" name="rootselect" required>
-                <option value="">選択してください</option>
-                <option value="1">ルート1</option>
-                <option value="2">ルート2</option>
-                <option value="3">ルート3</option>
-                <option value="4">ルート4</option>
-                <option value="5">ルート5</option>
-            </select>
-
-            <br><br>
+            <p th:text="${commuterpassData.routeInfo}"></p>
 
             <!-- メール送信情報 -->
             <p><strong>名前:</strong> <span th:text="${commuterpassData.employeename}"></span></p>
