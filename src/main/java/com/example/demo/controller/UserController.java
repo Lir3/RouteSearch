@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.LoginInfo;
 import com.example.demo.service.UserService;
@@ -16,13 +17,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ModelAndView registerUser(@RequestParam String role) {
+    @ResponseBody
+    public ResponseEntity<?> registerUser(@RequestParam String role) {
         LoginInfo user = userService.registerUser(role);
 
-        ModelAndView modelAndView = new ModelAndView("result"); // 結果を表示するためのビュー名
-        modelAndView.addObject("username", user.getUsername());
-        modelAndView.addObject("password", user.getPassword());
-        modelAndView.addObject("role", user.getRole());
-        return modelAndView;
+        // JSON形式でレスポンスを返す
+        return ResponseEntity.ok(user);
     }
 }

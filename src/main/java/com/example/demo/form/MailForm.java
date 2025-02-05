@@ -13,5 +13,5 @@ public class MailForm {
 
 	@NotBlank(message = "入力必須です。")
 	@Email
-	private String email;
+	private String mailaddress;
 }

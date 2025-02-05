@@ -26,6 +26,7 @@ public class CommuterpassData {
 	private String use_bus;
 	private String bus_arrival_station;
 	private String bus_departure_station;
+	private int rootselect_num;
 
 	//getter,setter
 	public Long getId() {
@@ -139,4 +140,13 @@ public class CommuterpassData {
 	public void setBus_departure_station(String bus_departure_station) {
 		this.bus_departure_station = bus_departure_station;
 	}
+
+	public int getRootselect_num() {
+		return rootselect_num;
+	}
+
+	public void setRootselect_num(int rootselect_num) {
+		this.rootselect_num = rootselect_num;
+	}
+
 }

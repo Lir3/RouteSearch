@@ -7,14 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.entity.CommuterpassData;
-import com.example.demo.repository.CommuterpassDataRepository;
+import com.example.demo.repository.RicdataRepository;
 
 @Controller
 public class CommuterpassDataController {
 
-	private final CommuterpassDataRepository commuterpassDataRepository;
+	private final RicdataRepository commuterpassDataRepository;
 
-	public CommuterpassDataController(CommuterpassDataRepository commuterpassDataRepository) {
+	public CommuterpassDataController(RicdataRepository commuterpassDataRepository) {
 		this.commuterpassDataRepository = commuterpassDataRepository;
 	}
 
@@ -24,11 +24,11 @@ public class CommuterpassDataController {
 		List<CommuterpassData> commuterpassDataList = commuterpassDataRepository.findAll();
 
 		// デバッグログを追加（取得したデータを表示）
-		System.out.println("取得したデータの件数: " + commuterpassDataList.size());
-		for (CommuterpassData data : commuterpassDataList) {
-			System.out.println(
-					"データ: " + data.getUsername() + ", " + data.getEmployeename() + ", " + data.getMailaddress());
-		}
+		//		System.out.println("取得したデータの件数: " + commuterpassDataList.size());
+		//		for (CommuterpassData data : commuterpassDataList) {
+		//			System.out.println(
+		//					"データ: " + data.getUsername() + ", " + data.getEmployeename() + ", " + data.getMailaddress());
+		//		}
 
 		// Thymeleaf にデータを渡す
 		model.addAttribute("commuterpassdata", commuterpassDataList);

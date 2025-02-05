@@ -9,6 +9,7 @@
 
 <body>
 	<h1>定期券代申請一覧</h1>
+	<button type="button" onclick="location.href='/admindashboard'">戻る</button>
 	<a href="bicdata">自転車申請一覧に切り替える</a>
 	<table>
 		<thead>
@@ -27,9 +28,9 @@
                 <td th:text="${data.username}"></td>
                 <td th:text="${data.employeename}"></td>
                 <td th:text="${data.mailaddress}"></td>
-                <td><a href="ricdata">登録済</a></td>
-                <td><a href="approval">送信済</a></td>
-                <td><a href="replycpy">〇</a></td>
+                 <td><a th:href="@{/ricdata/{username}(username=${data.username})}">登録済</a></td>
+                <td><a th:href="@{/approval/{username}(username=${data.username})}">送信済</a></td>
+                <td><a th:href="@{/replycpy/{username}(username=${data.username})}">〇</a></td>
                 <td><a href="commuterpass">作成済</a></td>
             </tr>
 		</tbody>

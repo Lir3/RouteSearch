@@ -24,6 +24,20 @@ h1 {
 	margin-bottom: 2em;
 }
 
+button {
+	position: absolute;
+	right: 30px;
+    width: 10%;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 table {
   display: inline-block;
   border-collapse: collapse;
