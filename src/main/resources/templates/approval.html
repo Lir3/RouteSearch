@@ -20,8 +20,30 @@
         <h2>選択ルート</h2>
 
         <form th:action="@{/sendMail}" method="post" onsubmit="showSpinner()">
-            <label for="rootselect">決定ルート：</label>
-            <p th:text="${commuterpassData.routeInfo}"></p>
+            <div class="result">
+				<h2>
+					経路詳細
+				</h2>
+
+				<p> <strong>所要時間: </strong><span th:text="${commuterpassData.travelTimeTransportation}"></span>分 (交通機関) ・ <span th:text="${commuterpassData.travelTimeWalk}"></span>分 (徒歩)
+				</p>
+				<p> <strong>乗換回数: </strong><span th:text="${commuterpassData.transferCount}"></span>回
+				</p>
+				<p> <strong>運賃: </strong><span th:text="${commuterpassData.fare}"></span>円
+				</p>
+
+				<p class="teiki-prices">
+					<strong>定期代 :</strong><br>
+					1か月: <span th:text="${commuterpassData.teiki1}"></span>円<br>
+					3か月: <span th:text="${commuterpassData.teiki3}"></span>円<br>
+					6か月: <span th:text="${commuterpassData.teiki6}"></span>円<br>
+				</p>
+
+				<h3><strong>経路</strong></h3>
+				<span th:text="${commuterpassData.routeInfo}"></span>
+			</div>
+
+            <br><br>
 
             <!-- メール送信情報 -->
             <p><strong>名前:</strong> <span th:text="${commuterpassData.employeename}"></span></p>

@@ -10,16 +10,6 @@ public class RoutesearchController {
 	public String routesearch() {
 		return "routesearch";
 	}
-
-	//会社ログイン画面
-	@Controller
-	public class CampanyloginController {
-		@RequestMapping(value = "/companylogin")
-		public String campanylogin() {
-			return "companylogin";
-		}
-	}
-
 	/*----管理者向け----*/
 
 	//管理者ログイン画面
@@ -49,15 +39,6 @@ public class RoutesearchController {
 		}
 	}
 
-	//定期券代申請一覧
-	@Controller
-	public class CommuterPassDataController {
-		@RequestMapping(value = "/commuterpassdata")
-		public String routesearch() {
-			return "commuterpassdata";
-		}
-	}
-
 	//自転車申請一覧
 	@Controller
 	public class BicDataController {
@@ -73,23 +54,6 @@ public class RoutesearchController {
 		@RequestMapping(value = "/bicroutemap")
 		public String routesearch() {
 			return "bicroutemap";
-		}
-	}
-
-	@Controller
-	public class RicDataController {
-		@RequestMapping(value = "/ricdata")
-		public String routesearch() {
-			return "ricdata";
-		}
-	}
-
-	//承認選択ページ
-	@Controller
-	public class ApprovalController {
-		@RequestMapping(value = "/approval")
-		public String approval() {
-			return "approval";
 		}
 	}
 
@@ -112,15 +76,6 @@ public class RoutesearchController {
 	}
 
 	/*----社員向け----*/
-
-	//ダッシュボード(社員用)
-	@Controller
-	public class MainMenuController {
-		@RequestMapping(value = "/mainmenu")
-		public String cpaf() {
-			return "mainmenu";
-		}
-	}
 
 	//定期代申請書画面
 	@Controller
@@ -150,29 +105,6 @@ public class RoutesearchController {
 	}
 
 	//メール承認フォームページ
-	@Controller
-	public class MailformController {
-		@RequestMapping(value = "/mailform")
-		public String mailform() {
-			return "mailform";
-		}
-	}
-
-	@Controller
-	public class AdminDashBoardController {
-		@RequestMapping(value = "/admindashboard")
-		public String campanylogin() {
-			return "admindashboard";
-		}
-	}
-
-	@Controller
-	public class GeneralDashBoard1000Controller {
-		@RequestMapping(value = "/generaldashboard")
-		public String campanylogin() {
-			return "generaldashboard";
-		}
-	}
 
 	@Controller
 	public class mapController {
