@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,6 +11,7 @@ import jakarta.persistence.Table;
 @Table(name = "commuterpassdata")
 public class CommuterpassData {
 
+<<<<<<< HEAD
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -27,8 +29,63 @@ public class CommuterpassData {
 	private String bus_arrival_station;
 	private String bus_departure_station;
 	private int rootselect_num;
+=======
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+>>>>>>> branch 'main' of https://github.com/Lir3/RouteSearch.git
 
-	//getter,setter
+    private String username;
+    private String employeename;
+    private String kana_name;
+    private String address;
+    private String mailaddress;
+    private String nearest_station;
+    private String arrival_station;
+    private String use_bicycle;
+    private Integer bic_move_distance;
+    private Integer bic_move_time;
+    private String use_bus;
+    private String bus_arrival_station;
+    private String bus_departure_station;
+
+    private Integer travelTimeTransportation;
+    private Integer travelTimeWalk;   // 所要時間
+    private Integer transfer_count; // 乗換回数
+    private Integer fare;         // 運賃
+    private Integer teiki1;       // 定期代（1か月）
+    private Integer teiki3;       // 定期代（3か月）
+    private Integer teiki6;       // 定期代（6か月）
+
+    @Column(columnDefinition = "TEXT")
+    private String route_Info;     // 経路情報（駅名・路線）
+
+    // ゲッター・セッター
+    public Integer getTravelTimeTransportation() { return travelTimeTransportation; }
+    public void setTravelTimeTransportation(Integer travelTimeTransportation) { this.travelTimeTransportation = travelTimeTransportation; }
+    
+    public Integer getTravelTimeWalk() { return travelTimeWalk; }
+    public void setTravelTimeWalk(Integer travelTimeWalk) { this.travelTimeWalk = travelTimeWalk; }
+
+
+    public Integer getTransferCount() { return transfer_count; }
+    public void setTransferCount(Integer transferCount) { this.transfer_count = transferCount; }
+
+    public Integer getFare() { return fare; }
+    public void setFare(Integer fare) { this.fare = fare; }
+
+    public Integer getTeiki1() { return teiki1; }
+    public void setTeiki1(Integer teiki1) { this.teiki1 = teiki1; }
+
+    public Integer getTeiki3() { return teiki3; }
+    public void setTeiki3(Integer teiki3) { this.teiki3 = teiki3; }
+
+    public Integer getTeiki6() { return teiki6; }
+    public void setTeiki6(Integer teiki6) { this.teiki6 = teiki6; }
+
+    public String getRouteInfo() { return route_Info; }
+    public void setRouteInfo(String routeInfo) { this.route_Info = routeInfo; }
+
 	public Long getId() {
 		return id;
 	}
