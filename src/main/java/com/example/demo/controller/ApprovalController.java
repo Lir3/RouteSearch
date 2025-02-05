@@ -41,11 +41,10 @@ public class ApprovalController {
 	}
 
 	@PostMapping("/sendMail")
-	public String sendMail(@PathVariable("username") String username, @Validated MailForm mailForm,
-			BindingResult bindingResult,
+	public String sendMail(@Validated MailForm mailForm, BindingResult bindingResult,
 			@RequestParam String mailaddress,
 			@RequestParam String employeename,
-			@RequestParam("rootselect") String rootselectStr,
+			@RequestParam String rootselect,
 			Model model) {
 
 		// バリデーションチェック
@@ -54,38 +53,9 @@ public class ApprovalController {
 			return "approval";
 		}
 
-		try {
-			// 3. `rootselect` を `int` に変換
-			int rootselect;
-			try {
-				rootselect = Integer.parseInt(rootselectStr);
-			} catch (NumberFormatException e) {
-				model.addAttribute("errorMessage", "ルート選択が無効です。");
-				return "approval";
-			}
-
-			// 4. `username` に対応する `commuterpassdata` を取得し、`rootselect_num` を保存
-			Optional<CommuterpassData> dataOpt = ricpageRepository.findByUsername(username);
-
-			if (dataOpt.isPresent()) {
-				CommuterpassData data = dataOpt.get();
-				data.setRootselect_num(rootselect); // 選択したルートを保存
-				ricpageRepository.save(data); // データを保存
-
-				// 5. メール送信
-				mailService.insertMail(data.getMailaddress(), data.getEmployeename(), rootselectStr);
-
-				return "redirect:/approval/sendcomp"; // 送信成功時
-
-			} else {
-				model.addAttribute("errorMessage", "ユーザー情報が見つかりませんでした。");
-				return "approval";
-			}
-
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "送信に失敗しました。" + e.getMessage());
-			return "approval"; // 送信失敗時
-		}
+		// メール送信
+		mailService.insertMail(mailaddress, employeename, rootselect);
+		return "redirect:/approval/sendcomp";
 	}
 
 	@GetMapping("/approval/sendcomp")
