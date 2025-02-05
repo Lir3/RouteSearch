@@ -2,64 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>経路探索結果</title>
-	<link rel="stylesheet" href="/css/result.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<script th:inline="javascript">
-		function showRoute(routeIndex) {
-			var routeContainers = document.querySelectorAll('.route-card');
-			routeContainers.forEach(function (container, index) {
-				if (routeIndex === -1) {
-					// Show all routes
-					container.style.display = 'block';
-				} else {
-					container.style.display = (index === routeIndex) ? 'block' : 'none';
-				}
-			});
-		}
-
-		function downloadRouteAsTxt(routeIndex) {
-			var routes = /*[[${course.ResultSet.Course}]]*/[];
-			if (routeIndex >= 0 && routeIndex < routes.length) {
-				var route = routes[routeIndex];
-				var content = "経路詳細\n";
-				content += "所要時間: " + ('交通機関' + route.Route.timeOnBoard + '分・徒歩' + route.Route.timeWalk + route.Route.timeOther) + "分\n";
-				content += "乗換回数: " + route.Route.transferCount + "回\n";
-				content += "運賃: " + getFare(route) + "円\n\n";
-				content += "経路:\n";
-
-				route.Route.Point.forEach((point, index) => {
-					content += point.Station.Name + "\n";
-					if (index < route.Route.Point.length - 1) {
-						var line = Array.isArray(route.Route.Line) ? route.Route.Line[index] : route.Route.Line;
-						if (line) {
-							content += "↓ " + line.Name + " (" + line.timeOnBoard + "分)\n";
-						}
-					}
-				});
-
-				var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-				var link = document.createElement("a");
-				link.href = URL.createObjectURL(blob);
-				link.download = "route_" + (routeIndex + 1) + ".txt";
-				link.click();
-			}
-		}
-
-		function getFare(route) {
-			if (route.Price && route.Price.length > 0) {
-				var fareSummary = route.Price.find(price => price.kind === 'FareSummary');
-				if (fareSummary) {
-					return fareSummary.Oneway;
-				}
-				return route.Price[0].Oneway;
-			}
-			return '不明';
-		}
-	</script>
-
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgyV7oQ2AFPWLorch-9n57oQQuck-dRU0&callback=initMap"
+    <meta charset="UTF-8">
+    <title>経路探索結果</title>
+    <link rel="stylesheet" href="/css/result.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgyV7oQ2AFPWLorch-9n57oQQuck-dRU0&callback=initMap"
 		defer></script>
 
 	<script>
@@ -80,7 +27,7 @@
 			let lati = "${point.GeoPoint.lati_d}";
 			let longi = "${point.GeoPoint.longi_d}";
 			//start、goalの値を東京駅と大阪駅、出発時刻を2024年1月1日10：00に指定
-			let requestUrl = "https://navitime-route-totalnavi.p.rapidapi.com/route_transit?start=" + lati + "," + longi + "&goal=" + lati + "," + longi + "&start_time=2024-01-01T10:00:00&shape=true"
+			let requestUrl = "https://navitime-route-totalnavi.p.rapidapi.com/route_transit?start=35.681236,139.767125&goal=35.61290792920856,140.11334262643746&start_time=2024-01-01T10:00:00&shape=true"
 
 			//APIにデータを取得するリクエスト（GETリクエスト）を送信することを指定し、
 			//Navitime APIを利用するための認証にAPIキーを入力
@@ -112,72 +59,85 @@
 
 
 	</script>
-
-
 </head>
 
 <body th:if="${course != null and course.ResultSet != null and course.ResultSet.Course != null}">
-	<div class="container">
-		<h1><i class="fas fa-route"></i> 経路探索結果</h1>
-		<div id="mapArea" style="width:800px; height:400px;"></div>
-		
-		<div class="tabs">
-			<ul>
-				<li>
-					<!-- Show All Button -->
-					<button onclick="showRoute(-1)">全件表示</button>
-				</li>
-				<li th:each="route, routeStat : ${course.ResultSet.Course}">
-					<button th:onclick="'showRoute(' + ${routeStat.index} + ')'"
-						th:text="'パターン' + (${routeStat.index} + 1)"></button>
-				</li>
-			</ul>
-		</div>
-		<div class="results">
-			<div class="route-card" th:each="route, routeStat : ${course.ResultSet.Course}" style="display:none;">
-				<h2><i class="fas fa-info-circle"></i> 経路詳細
-					<button class="download-btn" th:onclick="'downloadRouteAsTxt(' + ${routeStat.index} + ')'"><i
-							class="fas fa-download"></i> テキストとしてダウンロード</button>
-				</h2>
-				<p><i class="fas fa-clock"></i> 所要時間: <span
-						th:text="${('交通機関' + route.Route.timeOnBoard + '分・徒歩' + route.Route.timeWalk + route.Route.timeOther)}"></span>分
-				</p>
-				<p><i class="fas fa-exchange-alt"></i> 乗換回数: <span th:text="${route.Route.transferCount}"></span>回</p>
-				<p><i class="fas fa-yen-sign"></i> 運賃: <span
-						th:text="${T(com.example.demo.util.FareUtil).getFare(route)}"></span>円</p>
-				<p class="teiki-prices">
-					<i class="fas fa-calendar-alt"></i> 定期代 :
-					1か月: <span th:text="${T(com.example.demo.util.FareUtil).getTeikiPrice(route, 'Teiki1')}"></span>円
-					3か月: <span th:text="${T(com.example.demo.util.FareUtil).getTeikiPrice(route, 'Teiki3')}"></span>円
-					6か月: <span th:text="${T(com.example.demo.util.FareUtil).getTeikiPrice(route, 'Teiki6')}"></span>円
-				</p>
-				<h3><i class="fas fa-map-signs"></i> 経路</h3>
-				<ul class="route-list">
-					<li th:each="point, stat : ${route.Route.Point}">
-						<span th:text="${point.Station.Name}"></span>
-						
-						<br th:if="${!stat.last}">
-						<th:block th:if="${!stat.last}">
-							<i class="fas fa-long-arrow-alt-down"></i>
-							<span th:if="${route.Route.Line instanceof T(java.util.List)}">
-								<span th:text="${route.Route.Line[stat.index].Name}"></span>
-								(<span th:text="${route.Route.Line[stat.index].timeOnBoard}"></span>分)
-							</span>
-							<span th:unless="${route.Route.Line instanceof T(java.util.List)}">
-								<span th:text="${route.Route.Line.Name}"></span>
-								(<span th:text="${route.Route.Line.timeOnBoard}"></span>分)
-							</span>
-						</th:block>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<a class="back-btn" href="/map"><i class="fas fa-arrow-left"></i> 戻る</a>
-	</div>
-	<script th:inline="javascript">
-		// Automatically display the first route on load
-		showRoute(0);
-	</script>
+    <div class="container">
+        <h1><i class="fas fa-route"></i> 経路探索結果</h1>
+        
+        <!-- Googleマップの表示領域 -->
+        <div id="mapArea" style="width:800px; height:400px;"></div>
+
+        <p>現在のセッション: <span th:text="${session.username}"></span></p>
+
+        <div class="tabs">
+            <ul>
+                <li>
+                    <button onclick="showRoute(-1)">全件表示</button>
+                </li>
+                <li th:each="route, routeStat : ${course.ResultSet.Course}">
+                    <button th:onclick="'showRoute(' + ${routeStat.index} + ')'">
+                        パターン <span th:text="${routeStat.index + 1}"></span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="results">
+            <div class="route-card" th:each="route, routeStat : ${course.ResultSet.Course}" style="display:none;">
+                <h2><i class="fas fa-info-circle"></i> 経路詳細
+                    <button class="save-route-btn" th:onclick="'saveRoute(' + ${routeStat.index} + ')'">
+                        <i class="fas fa-save"></i> この経路を保存
+                    </button>
+                    <button class="download-btn" th:onclick="'downloadRouteAsTxt(' + ${routeStat.index} + ')'">
+                        <i class="fas fa-download"></i> テキストとしてダウンロード
+                    </button>
+                </h2>
+
+                <p><i class="fas fa-clock"></i> 所要時間:
+                    <span class="travel-time-transportation" th:text="${route.Route.timeOnBoard}"></span>分 (交通機関) ・
+                    <span class="travel-time-walk" th:text="${route.Route.timeWalk + route.Route.timeOther}"></span>分 (徒歩)
+                </p>
+                <p><i class="fas fa-exchange-alt"></i> 乗換回数:
+                    <span class="transfer-count" th:text="${route.Route.transferCount}"></span>回
+                </p>
+                <p><i class="fas fa-yen-sign"></i> 運賃:
+                    <span class="fare" th:text="${T(com.example.demo.util.FareUtil).getFare(route)}"></span>円
+                </p>
+
+                <p class="teiki-prices">
+                    <i class="fas fa-calendar-alt"></i> 定期代 :
+                    1か月: <span class="teiki1" th:text="${T(com.example.demo.util.FareUtil).getTeikiPrice(route, 'Teiki1')}"></span>円
+                    3か月: <span class="teiki3" th:text="${T(com.example.demo.util.FareUtil).getTeikiPrice(route, 'Teiki3')}"></span>円
+                    6か月: <span class="teiki6" th:text="${T(com.example.demo.util.FareUtil).getTeikiPrice(route, 'Teiki6')}"></span>円
+                </p>
+
+                <h3><i class="fas fa-map-signs"></i> 経路</h3>
+                <ul class="route-list">
+                    <li th:each="point, stat : ${route.Route.Point}">
+                        <span class="station-name" th:text="${point.Station.Name}"></span>
+                        <br th:if="${!stat.last}">
+                        <th:block th:if="${!stat.last}">
+                            <i class="fas fa-long-arrow-alt-down"></i>
+                            <span th:if="${route.Route.Line instanceof T(java.util.List)}">
+                                <span th:text="${route.Route.Line[stat.index].Name}"></span>
+                                (<span th:text="${route.Route.Line[stat.index].timeOnBoard}"></span>分)
+                            </span>
+                            <span th:unless="${route.Route.Line instanceof T(java.util.List)}">
+                                <span th:text="${route.Route.Line.Name}"></span>
+                                (<span th:text="${route.Route.Line.timeOnBoard}"></span>分)
+                            </span>
+                        </th:block>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <a class="back-btn" href="/map"><i class="fas fa-arrow-left"></i> 戻る</a>
+    </div>
+
+    <!-- 外部スクリプトを読み込む -->
+    <script src="js/result.js"></script>
+
 </body>
 
 </html>
