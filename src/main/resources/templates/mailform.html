@@ -10,7 +10,7 @@
 <body>
 	<div class="container">
 		<h1>承認選択ページ</h1>
-		<form>
+		<form th:action="@{/mailform/submit}" method="post">
 			<p>ユーザー名: [[${username}]]</p>
 			<p>下記のルートで定期券代申請が承認されました。</p>
 			<p>承認ができない場合はその理由を記載してください。</p>
@@ -19,7 +19,8 @@
 					経路詳細
 				</h2>
 
-				<p> <strong>所要時間: </strong><span th:text="${commuterpassData.travelTimeTransportation}"></span>分 (交通機関) ・ <span th:text="${commuterpassData.travelTimeWalk}"></span>分 (徒歩)
+				<p> <strong>所要時間: </strong><span th:text="${commuterpassData.travelTimeTransportation}"></span>分 (交通機関)
+					・ <span th:text="${commuterpassData.travelTimeWalk}"></span>分 (徒歩)
 				</p>
 				<p> <strong>乗換回数: </strong><span th:text="${commuterpassData.transferCount}"></span>回
 				</p>
@@ -45,27 +46,26 @@
 			<br>
 
 			<div>
-				<label for="select">承認する</label>
-				<input type="radio" id="ynselection" name="ynselection" value="yes" checked />
+				<label for="select_approve">承認する</label>
+				<input type="radio" id="select_approve_yes" name="select_approve" value="yes" th:checked="${commuterpassData.select_approve == '〇'}" />
 			</div>
 
 			<div>
-				<label for="yes">承認しない</label>
-				<input type="radio" id="ynselection" name="ynselection" value="no" checked />
+				<label for="select_approve">承認しない</label>
+				<input type="radio" id="select_approve_no" name="select_approve" value="no" th:checked="${commuterpassData.select_approve == '×' or commuterpassData.select_approve == null}" />
 			</div>
 
 			<br>
 
 			<label for="reason">承認できない理由(150字)</label>
 			<div>
-				<textarea id="reason" name="reason" rows="5" cols="50" maxlength="150"></textarea>
+				<textarea id="reason" name="reason" rows="5" cols="50" maxlength="150" ></textarea>
 			</div>
 
 			<br>
 
-			<div class="example">
-				<button type="submit">送信</button>
-			</div>
+			<button type="submit" onClick="history.go(-1)">保存</button>
+
 		</form>
 	</div>
 </body>

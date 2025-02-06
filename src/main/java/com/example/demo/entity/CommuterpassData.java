@@ -27,7 +27,8 @@ public class CommuterpassData {
 	private String use_bus;
 	private String bus_arrival_station;
 	private String bus_departure_station;
-	private int rootselect_num;
+	private String select_approve;
+	private String approval_reason;
 
 	private Integer travelTimeTransportation;
 	private Integer travelTimeWalk; // 所要時間
@@ -217,12 +218,36 @@ public class CommuterpassData {
 		this.bus_departure_station = bus_departure_station;
 	}
 
-	public int getRootselect_num() {
-		return rootselect_num;
+	public String getSelect_approve() {
+		return select_approve;
 	}
 
-	public void setRootselect_num(int rootselect_num) {
-		this.rootselect_num = rootselect_num;
+	public void setSelect_approve(String select_approve) {
+		this.select_approve = select_approve;
+	}
+
+	public String getApproval_reason() {
+		return approval_reason;
+	}
+
+	public void setApproval_reason(String approval_reason) {
+		this.approval_reason = approval_reason;
+	}
+
+	public Integer getTransfer_count() {
+		return transfer_count;
+	}
+
+	public void setTransfer_count(Integer transfer_count) {
+		this.transfer_count = transfer_count;
+	}
+
+	public String getRoute_Info() {
+		return route_Info;
+	}
+
+	public void setRoute_Info(String route_Info) {
+		this.route_Info = route_Info;
 	}
 
 }
