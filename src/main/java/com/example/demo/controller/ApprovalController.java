@@ -44,7 +44,6 @@ public class ApprovalController {
 	public String sendMail(@Validated MailForm mailForm, BindingResult bindingResult,
 			@RequestParam String mailaddress,
 			@RequestParam String employeename,
-			@RequestParam String rootselect,
 			Model model) {
 
 		// バリデーションチェック
@@ -54,7 +53,8 @@ public class ApprovalController {
 		}
 
 		// メール送信
-		mailService.insertMail(mailaddress, employeename, rootselect);
+		System.out.println("ここはうまくいってるよ");
+		mailService.insertMail(mailaddress, employeename);
 		return "redirect:/approval/sendcomp";
 	}
 
