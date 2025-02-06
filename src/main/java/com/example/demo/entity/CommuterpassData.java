@@ -22,13 +22,33 @@ public class CommuterpassData {
 	private String nearest_station;
 	private String arrival_station;
 	private String use_bicycle;
-	private int bic_move_distance;
-	private int bic_move_time;
+	private String bic_move_distance;
+	private String bic_move_time;
 	private String use_bus;
 	private String bus_arrival_station;
 	private String bus_departure_station;
+	private int rootselect_num;
+	private String filePath;
+	private Integer supportAmount;
 	private String select_approve;
 	private String approval_reason;
+
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public Integer getSupportAmount() {
+		return supportAmount;
+	}
+
+	public void setSupportAmount(Integer supportAmount) {
+		this.supportAmount = supportAmount;
+	}
 
 	private Integer travelTimeTransportation;
 	private Integer travelTimeWalk; // 所要時間
@@ -60,6 +80,22 @@ public class CommuterpassData {
 
 	public Integer getTransferCount() {
 		return transfer_count;
+	}
+
+	public String getBic_move_distance() {
+		return bic_move_distance;
+	}
+
+	public void setBic_move_distance(String bic_move_distance) {
+		this.bic_move_distance = bic_move_distance;
+	}
+
+	public String getBic_move_time() {
+		return bic_move_time;
+	}
+
+	public void setBic_move_time(String bic_move_time) {
+		this.bic_move_time = bic_move_time;
 	}
 
 	public void setTransferCount(Integer transferCount) {
@@ -178,22 +214,6 @@ public class CommuterpassData {
 		this.use_bicycle = use_bicycle;
 	}
 
-	public int getBic_move_distance() {
-		return bic_move_distance;
-	}
-
-	public void setBic_move_distance(int bic_move_distance) {
-		this.bic_move_distance = bic_move_distance;
-	}
-
-	public int getBic_move_time() {
-		return bic_move_time;
-	}
-
-	public void setBic_move_time(int bic_move_time) {
-		this.bic_move_time = bic_move_time;
-	}
-
 	public String getUse_bus() {
 		return use_bus;
 	}
@@ -218,7 +238,8 @@ public class CommuterpassData {
 		this.bus_departure_station = bus_departure_station;
 	}
 
-	public String getSelect_approve() {
+
+public String getSelect_approve() {
 		return select_approve;
 	}
 
@@ -234,20 +255,12 @@ public class CommuterpassData {
 		this.approval_reason = approval_reason;
 	}
 
-	public Integer getTransfer_count() {
-		return transfer_count;
+	public int getRootselect_num() {
+		return rootselect_num;
 	}
 
-	public void setTransfer_count(Integer transfer_count) {
-		this.transfer_count = transfer_count;
-	}
-
-	public String getRoute_Info() {
-		return route_Info;
-	}
-
-	public void setRoute_Info(String route_Info) {
-		this.route_Info = route_Info;
+	public void setRootselect_num(int rootselect_num) {
+		this.rootselect_num = rootselect_num;
 	}
 
 }

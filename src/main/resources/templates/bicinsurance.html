@@ -5,43 +5,44 @@
 	<meta charset="UTF-8">
 	<title>自転車保険加入証明書</title>
 	<link rel="stylesheet" href="css/cpaf.css">
-	<link rel="stylesheet" href="js/DaD.js">
+	<script src="js/noInput.js" defer></script>
+	<script src="js/DaD.js" defer></script>
 </head>
 
 <body>
 	<div class="container">
 		<h1>自転車保険加入証明書</h1>
-		<form>
+		<form th:action="@{/overwritesave/save}" method="post" enctype="multipart/form-data"
+			th:object="${commuterpassData}">
 			<label for="username">申請日</label>
-			<input type="text" id="username" name="username">
+			<input type="text" id="application_date" name="application_date" value="4月１日">
 
 			<label for="username">社員番号</label>
-			<input type="text" id="username" name="username">
+			<input type="text" id="user_id" name="user_id" th:value="${username}">
 
 			<label for="username">氏名</label>
-			<input type="text" id="username" name="username">
+			<input type="text" id="employeename" name="employeename" th:field="*{employeename}">
 
 			<label for="username">氏名(カナ)</label>
-			<input type="text" id="username" name="username">
-
-			<label for="username">住所</label>
-			<input type="text" id="username" name="username">
+			<input type="text" id="kana_name" name="kana_name" th:field="*{kana_name}">
 
 			<label for="username">所属</label>
-			<input type="text" id="username" name="username">
+			<input type="text" id="affiliation" name="affiliation" value="新入社員">
+
+			<label for="username">住所</label>
+			<input type="text" id="address" name="address" th:field="*{address}">
+
+			<br>
 
 			<!-- ドラッグアンドドロップエリア -->
 			<div id="drop-area" class="drop-area">
-				<label>ここにファイルをドラッグ＆ドロップ</label>
+				<label>自転車保険加入証明書</label>
+				<input type="file" id="fileInput" name="file" /><br><br>
 			</div>
-			<input type="file" id="fileInput">
-
-			<br>
-			<br>
 
 			<div class="example">
-				<button type="submit">保存</button>
-				<button type="button" onclick="location.href='mainmenu'">戻る</button>
+				<button type="submit" onClick="history.go(-1)">保存</button>
+				<button type="button" onclick="history.go(-1)">戻る</button>
 			</div>
 		</form>
 	</div>

@@ -2,66 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>自転車通勤経路図</title>
-	<link rel="stylesheet" href="css/cpaf.css">
-	<script src="js/noInput.js" defer></script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_jbMEsT3nEBlqsAl1AUynOcBvxekWrI&libraries=places&callback=initMap"
-		async 
-		defer>
-		</script>
+    <meta charset="UTF-8">
+    <title>自転車通勤申請</title>
+    <link rel="stylesheet" href="css/cpaf.css">
+    <script src="js/noInput.js" defer></script>
+    <!-- Google Maps API -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDt_jbMEsT3nEBlqsAl1AUynOcBvxekWrI&libraries=places&callback=initMap"
+        async defer>
+    </script>
 </head>
 
 <body>
-	<div class="container">
-		<h1>自転車通勤経路図</h1>
+    <div class="container">
+        <h1>自転車通勤申請</h1>
+        <form th:action="@{/overwritesave/save}" method="post" th:object="${commuterpassData}">
+            <label for="application_date">申請日</label>
+            <input type="text" id="application_date" name="application_date" value="4月１日">
 
-		<!-- フォーム全体を onsubmit で処理 -->
-		<form onsubmit="calcRoute(event)">
-			<label for="application_date">申請日</label>
-			<input type="text" id="application_date" name="application_date" value="">
+            <label for="user_id">社員番号</label>
+            <input type="text" id="user_id" name="user_id" th:value="${username}">
 
-			<label for="user_id">社員番号</label>
-			<input type="text" id="user_id" name="user_id" th:value="${username}">
+            <label for="employeename">氏名</label>
+            <input type="text" id="employeename" name="employeename" th:field="*{employeename}">
 
-			<label for="fullname">氏名</label>
-			<input type="text" id="fullname" name="fullname">
+            <label for="kana_name">氏名(カナ)</label>
+            <input type="text" id="kana_name" name="kana_name" th:field="*{kana_name}">
 
-			<label for="fullname_kana">氏名(カナ)</label>
-			<input type="text" id="fullname_kana" name="fullname_kana">
+            <label for="affiliation">所属</label>
+            <input type="text" id="affiliation" name="affiliation" value="新入社員">
 
-			<label for="affiliation">所属</label>
-			<input type="text" id="affiliation" name="affiliation" value="">
+            <label for="address">住所（出発地）</label>
+            <input type="text" id="address" name="address" th:field="*{address}">
 
-			<label for="address">住所（出発地）</label>
-			<input type="text" id="address" name="address">
+            <label for="end">目的地</label>
+            <input id="end" type="text" value="千葉駅">
 
-			<label for="end">目的地</label>
-			<input id="end" type="text" value="日本、東京都千代田区丸の内2丁目1-1 明治安田生命ビル">
+            <button type="button" onclick="calcRoute(event)">経路探索</button>
 
-			<button type="submit">経路探索</button>
+            <!-- MAP 表示エリア -->
+            <div id="map" style="width: 100%; height: 400px;"></div>
 
-			<!-- MAP 表示エリア -->
-			<div id="map" style="width: 100%; height: 400px;"></div>
+            <!-- 経路情報 -->
+            <label for="bic_move_distance">自転車所要距離</label>
+            <input type="text" id="bic_move_distance" name="bic_move_distance" th:field="*{bic_move_distance}" disabled>
 
-			<!-- 経路情報 -->
-			<div id="routes">
-				<label for="bicycle_distance">自転車所要距離</label>
-				<input type="text" id="bicycle_distance" name="bicycle_distance" value="">
+            <label for="bic_move_time">自転車所要時間</label>
+            <input type="text" id="bic_move_time" name="bic_move_time" th:field="*{bic_move_time}" disabled>
 
-				<label for="bicycle_time">自転車所要時間</label>
-				<input type="text" id="bicycle_time" name="bicycle_time" value="">
-			</div>
+            <label for="supportAmount">支給額 (円):</label>
+            <input type="text" id="supportAmount" name="supportAmount" readonly>
 
-			<br><br>
+            <br><br>
 
-			<div class="example">
-				<button type="submit">保存</button>
-				<button type="button" onclick="location.href='mainmenu'">戻る</button>
-			</div>
-		</form>
-	</div>
+            <div class="example">
+                <button type="submit" onClick="history.go(-1)">保存</button>
+                <button type="button" onclick="history.go(-1)">戻る</button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

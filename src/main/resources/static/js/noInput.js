@@ -2,15 +2,16 @@ document.addEventListener("DOMContentLoaded", function() {
 	let application_date = document.getElementById("application_date");
 	let user_id = document.getElementById("user_id");
 	let affiliation = document.getElementById("affiliation");
-	let bicycle_distance = document.getElementById("bicycle_distance");
-	let bicycle_time = document.getElementById("bicycle_time");
-
+	let bic_move_distance = document.getElementById("bic_move_distance");
+	let bic_move_time = document.getElementById("bic_move_time");
+	let supportAmount = document.getElementById("supportAmount");
 
 	if (application_date) application_date.disabled = true;
 	if (user_id) user_id.disabled = true;
 	if (affiliation) affiliation.disabled = true;
-	if (bicycle_distance) bicycle_distance.disabled = true;
-	if (bicycle_time) bicycle_time.disabled = true;
+	if (bic_move_distance) bic_move_distance.disabled = true;
+	if (bic_move_time) bic_move_time.disabled = true;
+	if (supportAmount) supportAmount.disabled = true;
 });
 
 let map, directionsService, directionsRenderer, startAutocomplete, endAutocomplete;
@@ -68,19 +69,47 @@ function calcRoute(event) {
 
 // 経路情報を表示
 function displayRouteInfo(response) {
-	const route = response.routes[0].legs[0];
-	const duration = route.duration.text;
-	const distance = route.distance.text;
+    const route = response.routes[0].legs[0];
+    const duration = route.duration.text;
+    const distance = route.distance.text;
 
-	const routesDiv = document.getElementById('routes');
-	routesDiv.innerHTML = `
-                <label for="bicycle_distance">自転車所要距離</label>
-                <input type="text" id="bicycle_distance" name="bicycle_distance" value="${distance}" disabled>
+    // Kmの単位を取り除き、数値部分を取得
+    const distanceValue = parseFloat(distance.replace('Km', '').trim());
 
-                <label for="bicycle_time">自転車所要時間</label>
-                <input type="text" id="bicycle_time" name="bicycle_time" value="${duration}" disabled>
-            `;
-	//あとから値を入れる
-	document.getElementById('bicycle_time').value = duration;
-	document.getElementById('bicycle_distance').value = distance;
+    // input要素を取得
+    const distanceInput = document.getElementById('bic_move_distance');
+    const timeInput = document.getElementById('bic_move_time');
+
+    // 値をセット
+    distanceInput.value = distance;
+    timeInput.value = duration;
+
+    // disabledを解除し、フォーム送信時に値が送られるようにする
+    distanceInput.removeAttribute("disabled");
+    timeInput.removeAttribute("disabled");
+
+    // 支給額の計算を行う
+    calculateSupportAmount();
+}
+
+
+// 支給額計算
+function calculateSupportAmount() {
+    const bicMoveDistanceInput = document.getElementById("bic_move_distance");
+    const supportAmountInput = document.getElementById("supportAmount");
+
+    // `bic_move_distance` の値を取得
+    const bicMoveDistanceValue = bicMoveDistanceInput.value;
+
+    // Kmの単位を取り除き、数値部分を取得
+    const distanceValue = parseFloat(bicMoveDistanceValue.replace('Km', '').trim());
+
+    // 計算条件
+    let supportAmount = 0;
+    if (distanceValue >= 2 && distanceValue < 10) {
+        supportAmount = 4200; // 支給額
+    }
+
+    // 計算結果を表示
+    supportAmountInput.value = supportAmount + "円";
 }

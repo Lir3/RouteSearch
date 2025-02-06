@@ -91,6 +91,7 @@ function saveRoute(routeIndex) {
     var routeInfo = Array.from(routeList).map(li => li.innerText.split('\n')[0].trim()).join(" → ") || '経路情報なし';
 
     var requestData = {
+        username: sessionStorage.getItem('username'),  // セッションから取得
         nearest_station: nearestStation,
         arrival_station: arrivalStation,
         travelTimeTransportation: parseInt(transportTime, 10),
@@ -114,6 +115,7 @@ function saveRoute(routeIndex) {
     .then(data => alert(data))
     .catch(error => console.error('保存エラー:', error));
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     showRoute(0);

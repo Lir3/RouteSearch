@@ -1,5 +1,4 @@
- <script>
-        const dropArea = document.getElementById('drop-area');
+  const dropArea = document.getElementById('drop-area');
         const fileInput = document.getElementById('fileInput');
 
         dropArea.addEventListener('dragover', (e) => {
@@ -24,4 +23,3 @@
                 alert(`${files[0].name} が選択されました`);
             }
         }
-    </script>
